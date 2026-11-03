@@ -230,13 +230,20 @@ function AppRoutes() {
  * data router, which a declarative `<BrowserRouter>` cannot provide. The
  * existing `<Routes>` tree lives inside the splat route below.
  */
-const router = createBrowserRouter([
-  {
-    path: "*",
-    element: <AppRoutes />,
-    errorElement: <RouteErrorScreen />,
-  },
-]);
+const basePath = import.meta.env.BASE_URL.replace(/\/+$/, "")
+
+const router = createBrowserRouter(
+  [
+    {
+      path: "*",
+      element: <AppRoutes />,
+      errorElement: <RouteErrorScreen />,
+    },
+  ],
+  // GitHub Pages serves project sites under a subpath, so the router must be
+  // told about it; at the root (`BASE_URL === "/"`) no basename is needed.
+  basePath ? { basename: basePath } : undefined
+);
 
 export function App() {
   return (

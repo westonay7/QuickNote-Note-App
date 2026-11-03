@@ -9,6 +9,7 @@ import {
 } from 'react'
 import type { Session, User } from '@supabase/supabase-js'
 import { fetchProfile, updateProfile as apiUpdateProfile } from '@/lib/api'
+import { appUrl } from '@/lib/appUrl'
 import { isSupabaseConfigured, getSupabase, friendlyError } from '@/lib/supabase'
 import type { Profile } from '@/lib/types'
 import { usePrefs } from './PrefsContext'
@@ -79,7 +80,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       password,
       options: {
         data: { full_name: fullName.trim() },
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        emailRedirectTo: appUrl('/auth/callback'),
       },
     })
     if (error) throw new Error(friendlyError(error))
